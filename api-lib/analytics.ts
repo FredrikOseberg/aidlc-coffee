@@ -40,7 +40,8 @@ function percentile(sorted: number[], p: number) {
   return Math.round(sorted[Math.min(sorted.length - 1, Math.floor((p / 100) * sorted.length))]!);
 }
 
-export async function summarize(db: D1Database, from: string, to: string, flag: string | null, cohort: Cohort): Promise<Summary> {
+/** `withLatency: false` skips the latency query when the caller doesn't need it (saves D1 reads). */
+export async function summarize(db: D1Database, from: string, to: string, flag: string | null, cohort: Cohort, withLatency = true): Promise<Summary> {
   const c = cohortClause(flag, cohort);
   const counts = await db
     .prepare(
@@ -60,7 +61,9 @@ export async function summarize(db: D1Database, from: string, to: string, flag: 
     .first<Record<string, number | null>>();
   const n = (k: string) => Number(counts?.[k] ?? 0);
 
-  const latencies = await db
+  const latencies = !withLatency
+    ? { results: [] as { ms: number | null }[] }
+    : await db
     .prepare(`SELECT CAST(json_extract(props, '$.latencyMs') AS REAL) AS ms FROM events WHERE type = 'order_placed' AND ts >= ? AND ts < ?${c.sql} AND props IS NOT NULL LIMIT 5000`)
     .bind(from, to, ...c.args)
     .all<{ ms: number | null }>();

@@ -12,6 +12,6 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const cohort = (url.searchParams.get('cohort') ?? 'all') as Cohort;
   if (!['all', 'on', 'off'].includes(cohort)) return bad('cohort must be all, on or off');
   const { from, to } = windowFrom(url);
-  const summary = await summarize(env.DB, from, to, url.searchParams.get('flag'), cohort);
+  const summary = await summarize(env.DB, from, to, url.searchParams.get('flag'), cohort, name.startsWith('checkoutLatency'));
   return json({ name, cohort, window: { from, to }, value: summary[name], sessions: summary.sessions });
 };

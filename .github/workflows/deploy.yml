@@ -29,7 +29,8 @@ jobs:
       - run: npm run build
         env:
           VITE_UNLEASH_URL: ${{ secrets.VITE_UNLEASH_URL }}
-          VITE_UNLEASH_CLIENT_KEY: ${{ secrets.VITE_UNLEASH_CLIENT_KEY }}
+          # Previews evaluate flags in the development environment, so flagged work can be reviewed before release.
+          VITE_UNLEASH_CLIENT_KEY: ${{ github.event_name == 'pull_request' && secrets.VITE_UNLEASH_CLIENT_KEY_PREVIEW || secrets.VITE_UNLEASH_CLIENT_KEY }}
 
       - name: Apply database migrations
         if: github.event_name == 'push'

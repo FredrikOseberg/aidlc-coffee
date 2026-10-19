@@ -25,3 +25,5 @@ npm run pages:dev        # app + API on http://localhost:8788
 
 Pull requests get a preview deploy (link posted on the PR); merging to `main` deploys to production.
 Secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `VITE_UNLEASH_URL`, `VITE_UNLEASH_CLIENT_KEY`.
+
+<!-- ai-dlc pull-request job smoke test -->

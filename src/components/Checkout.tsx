@@ -4,9 +4,10 @@ import { track } from '../lib/analytics';
 import type { useCart } from '../lib/cart';
 import { saveOrder, type Order } from '../lib/orders';
 
-type Props = { cart: ReturnType<typeof useCart>; onBack: () => void; onPlaced: (order: Order) => void };
+/** `source` tags `order_placed` when the cart came from somewhere other than the menu. */
+type Props = { cart: ReturnType<typeof useCart>; onBack: () => void; onPlaced: (order: Order) => void; source?: 'reorder' };
 
-export function Checkout({ cart, onBack, onPlaced }: Props) {
+export function Checkout({ cart, onBack, onPlaced, source }: Props) {
   const [name, setName] = useState('');
   const [placing, setPlacing] = useState(false);
   const started = useRef(performance.now());
@@ -29,7 +30,7 @@ export function Checkout({ cart, onBack, onPlaced }: Props) {
       pickupName: name.trim(),
     };
     saveOrder(order);
-    track('order_placed', order.totalCents, { latencyMs: Math.round(performance.now() - started.current), items: cart.count });
+    track('order_placed', order.totalCents, { latencyMs: Math.round(performance.now() - started.current), items: cart.count, ...(source && { source }) });
     onPlaced(order);
   };
 

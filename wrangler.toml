@@ -6,5 +6,5 @@ compatibility_date = "2025-09-01"
 binding = "DB"
 database_name = "aidlc-coffee"
 # Filled in once the database exists in the Cloudflare account (wrangler d1 create aidlc-coffee).
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "3215aa45-ebaa-42d5-ab2a-6d1fc3de759e"
 migrations_dir = "migrations"

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { CATEGORIES, MENU, formatPrice, type Category } from '../data/menu';
 import { track } from '../lib/analytics';
 
-type Props = { onAdd: (itemId: string) => void };
+/** `banner` renders between the title and the category tabs. */
+type Props = { onAdd: (itemId: string) => void; banner?: ReactNode };
 
-export function Menu({ onAdd }: Props) {
+export function Menu({ onAdd, banner }: Props) {
   const [category, setCategory] = useState<Category>('coffee');
   const [added, setAdded] = useState<string | null>(null);
 
@@ -18,6 +19,7 @@ export function Menu({ onAdd }: Props) {
   return (
     <section>
       <h1 className="page-title">What can we make you?</h1>
+      {banner}
       <nav className="tabs">
         {CATEGORIES.map((c) => (
           <button key={c.id} className={`tab ${c.id === category ? 'active' : ''}`} onClick={() => setCategory(c.id)}>

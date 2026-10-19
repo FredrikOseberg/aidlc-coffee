@@ -2,13 +2,28 @@ import { useEffect, useReducer } from 'react';
 import { itemById } from '../data/menu';
 
 export type CartLine = { itemId: string; quantity: number };
-type Action = { type: 'add'; itemId: string } | { type: 'remove'; itemId: string } | { type: 'clear' };
+type Action =
+  | { type: 'add'; itemId: string }
+  | { type: 'addLines'; lines: CartLine[] }
+  | { type: 'remove'; itemId: string }
+  | { type: 'clear' };
 
 function reducer(lines: CartLine[], action: Action): CartLine[] {
   switch (action.type) {
     case 'add': {
       const line = lines.find((l) => l.itemId === action.itemId);
       return line ? lines.map((l) => (l === line ? { ...l, quantity: l.quantity + 1 } : l)) : [...lines, { itemId: action.itemId, quantity: 1 }];
+    }
+    case 'addLines': {
+      // Merges a whole past order in one update: existing lines keep their place, new items are appended.
+      const next = [...lines];
+      for (const { itemId, quantity } of action.lines) {
+        if (!Number.isInteger(quantity) || quantity <= 0) continue;
+        const i = next.findIndex((l) => l.itemId === itemId);
+        if (i >= 0) next[i] = { ...next[i], quantity: next[i].quantity + quantity };
+        else next.push({ itemId, quantity });
+      }
+      return next;
     }
     case 'remove':
       return lines.flatMap((l) => (l.itemId !== action.itemId ? [l] : l.quantity > 1 ? [{ ...l, quantity: l.quantity - 1 }] : []));

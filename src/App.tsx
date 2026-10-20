@@ -7,8 +7,9 @@ import { Confirmation } from './components/Confirmation';
 import { UsualCard } from './components/UsualCard';
 import { track } from './lib/analytics';
 import { useCart } from './lib/cart';
-import { useReorderUsual } from './lib/flags';
+import { useDarkMode, useFlagsReady, useReorderUsual } from './lib/flags';
 import { lastOrder, type Order, type Usual } from './lib/orders';
+import { useTheme } from './lib/theme';
 
 type View = { name: 'menu' } | { name: 'checkout' } | { name: 'done'; order: Order };
 
@@ -18,10 +19,16 @@ export default function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const reorderOn = useReorderUsual();
   const [fromReorder, setFromReorder] = useState(false);
+  const darkOn = useDarkMode();
+  const { theme, toggle } = useTheme(darkOn, useFlagsReady());
 
+  // With dark mode on, re-fires once the flag resolves so the session is counted with its theme (darkSessionShare).
+  // `theme` is deliberately not a dependency: toggling it isn't a new menu view.
   useEffect(() => {
-    if (view.name === 'menu') track('view_menu');
-  }, [view.name]);
+    if (view.name !== 'menu') return;
+    if (darkOn) track('view_menu', undefined, { theme });
+    else track('view_menu');
+  }, [view.name, darkOn]);
 
   // Re-read on every return to the menu so a just-placed order becomes the usual.
   const usual = useMemo(() => (reorderOn && view.name === 'menu' ? lastOrder() : null), [reorderOn, view.name]);
@@ -39,7 +46,13 @@ export default function App() {
 
   return (
     <div className="shell">
-      <Header count={cart.count} onCart={() => setCartOpen(true)} onHome={() => setView({ name: 'menu' })} />
+      <Header
+        count={cart.count}
+        onCart={() => setCartOpen(true)}
+        onHome={() => setView({ name: 'menu' })}
+        theme={darkOn ? theme : undefined}
+        onToggleTheme={darkOn ? toggle : undefined}
+      />
       <main className="page">
         {view.name === 'menu' && (
           <Menu

@@ -15,3 +15,7 @@ export const useFlagsReady: () => boolean = unleashConfig ? () => useFlagsStatus
 /** "Your usual" reorder card. Read once in App.tsx; off means the shop behaves exactly like main. */
 export const REORDER_USUAL_FLAG = 'coffee-reorder-usual';
 export const useReorderUsual = (): boolean => useFeature(REORDER_USUAL_FLAG);
+
+/** Dark theme and header toggle. Read once in App.tsx; off means light-only, exactly like main. */
+export const DARK_MODE_FLAG = 'coffee-dark-mode';
+export const useDarkMode = (): boolean => useFeature(DARK_MODE_FLAG);

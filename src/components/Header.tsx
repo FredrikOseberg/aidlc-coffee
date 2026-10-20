@@ -4,7 +4,7 @@ type Props = { count: number; onCart: () => void; onHome: () => void; theme?: Th
 
 export function Header({ count, onCart, onHome, theme, onToggleTheme }: Props) {
   return (
-    <header className="header">
+    <header className={onToggleTheme ? 'header header-themed' : 'header'}>
       <button className="brand" onClick={onHome}>
         <span className="brand-mark">K&amp;C</span>
         <span className="brand-name">Kettle &amp; Crane</span>

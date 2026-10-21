@@ -19,3 +19,7 @@ export const useReorderUsual = (): boolean => useFeature(REORDER_USUAL_FLAG);
 /** Dark theme and header toggle. Read once in App.tsx; off means light-only, exactly like main. */
 export const DARK_MODE_FLAG = 'coffee-dark-mode';
 export const useDarkMode = (): boolean => useFeature(DARK_MODE_FLAG);
+
+/** Allergens link and panel on each menu card. Read once in App.tsx; off means the menu is exactly like main. */
+export const ALLERGEN_INFO_FLAG = 'coffee-allergen-info';
+export const useAllergenInfo = (): boolean => useFeature(ALLERGEN_INFO_FLAG);

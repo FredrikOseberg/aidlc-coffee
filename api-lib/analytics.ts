@@ -25,6 +25,10 @@ export type Summary = {
   checkoutLatencyP95Ms: number | null;
   /** sessions that rendered dark (view_menu with props.theme = 'dark') / sessions */
   darkSessionShare: number;
+  /** sessions that opened an allergen panel (allergen_info_viewed) */
+  allergenViewSessions: number;
+  /** allergenViewSessions / sessions */
+  allergenViewRate: number;
 };
 
 const ratio = (a: number, b: number) => (b ? Math.round((a / b) * 10_000) / 10_000 : 0);
@@ -57,7 +61,8 @@ export async function summarize(db: D1Database, from: string, to: string, flag: 
          SUM(type = 'error') AS errors,
          COUNT(DISTINCT CASE WHEN type = 'add_to_cart' THEN session_id END) AS cartSessions,
          COUNT(DISTINCT CASE WHEN type = 'order_placed' THEN session_id END) AS orderSessions,
-         COUNT(DISTINCT CASE WHEN type = 'view_menu' AND json_extract(props, '$.theme') = 'dark' THEN session_id END) AS darkSessions
+         COUNT(DISTINCT CASE WHEN type = 'view_menu' AND json_extract(props, '$.theme') = 'dark' THEN session_id END) AS darkSessions,
+         COUNT(DISTINCT CASE WHEN type = 'allergen_info_viewed' THEN session_id END) AS allergenViewSessions
        FROM events WHERE ts >= ? AND ts < ?${c.sql}`,
     )
     .bind(from, to, ...c.args)
@@ -88,11 +93,13 @@ export async function summarize(db: D1Database, from: string, to: string, flag: 
     checkoutLatencyP50Ms: percentile(ms, 50),
     checkoutLatencyP95Ms: percentile(ms, 95),
     darkSessionShare: ratio(n('darkSessions'), n('sessions')),
+    allergenViewSessions: n('allergenViewSessions'),
+    allergenViewRate: ratio(n('allergenViewSessions'), n('sessions')),
   };
 }
 
 export const METRICS: (keyof Summary)[] = [
   'sessions', 'users', 'addToCart', 'checkoutsStarted', 'orders', 'revenueCents', 'errors', 'conversionRate',
   'checkoutCompletion', 'cartAbandonment', 'errorRate', 'avgOrderCents', 'checkoutLatencyP50Ms', 'checkoutLatencyP95Ms',
-  'darkSessionShare',
+  'darkSessionShare', 'allergenViewSessions', 'allergenViewRate',
 ];

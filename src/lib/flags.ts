@@ -23,3 +23,7 @@ export const useDarkMode = (): boolean => useFeature(DARK_MODE_FLAG);
 /** Allergens link and panel on each menu card. Read once in App.tsx; off means the menu is exactly like main. */
 export const ALLERGEN_INFO_FLAG = 'coffee-allergen-info';
 export const useAllergenInfo = (): boolean => useFeature(ALLERGEN_INFO_FLAG);
+
+/** Favourite stars and "Your favourites" row on the menu. Read once in App.tsx; off means the menu is exactly like main. */
+export const FAVOURITE_DRINKS_FLAG = 'coffee-favourite-drinks';
+export const useFavouriteDrinks = (): boolean => useFeature(FAVOURITE_DRINKS_FLAG);

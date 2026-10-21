@@ -1,6 +1,6 @@
 import { bad, json, type Env } from '../../api-lib/http';
 
-const TYPES = new Set(['view_menu', 'add_to_cart', 'remove_from_cart', 'checkout_started', 'order_placed', 'error', 'reorder_shown', 'reorder_used', 'theme_changed', 'allergen_info_viewed']);
+const TYPES = new Set(['view_menu', 'add_to_cart', 'remove_from_cart', 'checkout_started', 'order_placed', 'error', 'reorder_shown', 'reorder_used', 'theme_changed', 'allergen_info_viewed', 'favourite_added', 'favourite_removed', 'favourites_shown']);
 const MAX_BATCH = 200;
 
 type Incoming = { ts?: string; userId?: string; sessionId?: string; type?: string; value?: number; flags?: Record<string, string>; props?: Record<string, unknown> };

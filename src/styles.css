@@ -106,3 +106,17 @@ button { font: inherit; cursor: pointer; }
 .item p.allergen-list { padding-left: 0; }
 .item .allergen-note { margin: 8px 0 0; color: var(--muted); font-size: 12.5px; }
 .item .allergen-placeholder { margin: 6px 0 0; color: var(--crema); font-size: 12.5px; font-weight: 600; }
+.item-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.fav-star { flex: none; width: 44px; height: 44px; margin: -10px -10px -10px 0; border: 0; border-radius: 50%; background: none; color: var(--muted); font-size: 22px; line-height: 1; padding: 0; display: grid; place-items: center; }
+.fav-star.on { color: var(--crema); }
+.fav-star:focus-visible { outline: 2px solid var(--crema); outline-offset: -4px; }
+.favourites { margin-bottom: 18px; }
+.favourites h2 { margin: 0 0 8px; font: 600 17px 'Fraunces', serif; color: var(--espresso); }
+.favourites-empty { margin: 0; color: var(--muted); font-size: 13.5px; }
+.favourites-row { display: flex; gap: 10px; margin: 0; padding: 0 0 6px; list-style: none; overflow-x: auto; scroll-snap-type: x proximity; }
+.fav-chip { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 4px 8px 12px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); scroll-snap-align: start; }
+.fav-chip-emoji { font-size: 22px; }
+.fav-chip-body { display: flex; flex-direction: column; line-height: 1.25; white-space: nowrap; }
+.fav-chip-name { font-weight: 600; font-size: 14px; }
+.fav-chip .price { font-size: 13px; color: var(--muted); }
+.fav-chip .fav-star { margin: 0; }

@@ -1,11 +1,12 @@
 import { useState, type ReactNode } from 'react';
 import { CATEGORIES, MENU, formatPrice, type Category } from '../data/menu';
 import { track } from '../lib/analytics';
+import { AllergenInfo } from './AllergenInfo';
 
-/** `banner` renders between the title and the category tabs. */
-type Props = { onAdd: (itemId: string) => void; banner?: ReactNode };
+/** `banner` renders between the title and the category tabs. `showAllergens` is coffee-allergen-info, read in App.tsx. */
+type Props = { onAdd: (itemId: string) => void; banner?: ReactNode; showAllergens?: boolean };
 
-export function Menu({ onAdd, banner }: Props) {
+export function Menu({ onAdd, banner, showAllergens }: Props) {
   const [category, setCategory] = useState<Category>('coffee');
   const [added, setAdded] = useState<string | null>(null);
 
@@ -35,6 +36,7 @@ export function Menu({ onAdd, banner }: Props) {
               <h2>{item.name}</h2>
               <p>{item.description}</p>
             </div>
+            {showAllergens && <AllergenInfo itemId={item.id} />}
             <div className="item-foot">
               <span className="price">{formatPrice(item.priceCents)}</span>
               <button className={`add ${added === item.id ? 'added' : ''}`} onClick={() => add(item.id, item.priceCents)}>

@@ -1,6 +1,6 @@
 import { sessionId, userId } from './identity';
 
-export type EventType = 'view_menu' | 'add_to_cart' | 'remove_from_cart' | 'checkout_started' | 'order_placed' | 'error' | 'reorder_shown' | 'reorder_used' | 'theme_changed';
+export type EventType = 'view_menu' | 'add_to_cart' | 'remove_from_cart' | 'checkout_started' | 'order_placed' | 'error' | 'reorder_shown' | 'reorder_used' | 'theme_changed' | 'allergen_info_viewed';
 
 type AnalyticsEvent = {
   ts: string;

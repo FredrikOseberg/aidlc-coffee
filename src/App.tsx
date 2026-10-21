@@ -7,7 +7,7 @@ import { Confirmation } from './components/Confirmation';
 import { UsualCard } from './components/UsualCard';
 import { track } from './lib/analytics';
 import { useCart } from './lib/cart';
-import { useDarkMode, useFlagsReady, useReorderUsual } from './lib/flags';
+import { useAllergenInfo, useDarkMode, useFlagsReady, useReorderUsual } from './lib/flags';
 import { lastOrder, type Order, type Usual } from './lib/orders';
 import { useTheme } from './lib/theme';
 
@@ -21,6 +21,7 @@ export default function App() {
   const [fromReorder, setFromReorder] = useState(false);
   const darkOn = useDarkMode();
   const { theme, toggle } = useTheme(darkOn, useFlagsReady());
+  const allergensOn = useAllergenInfo();
 
   // With dark mode on, re-fires once the flag resolves so the session is counted with its theme (darkSessionShare).
   // `theme` is deliberately not a dependency: toggling it isn't a new menu view.
@@ -58,6 +59,7 @@ export default function App() {
           <Menu
             onAdd={(id) => cart.dispatch({ type: 'add', itemId: id })}
             banner={usual ? <UsualCard usual={usual} onReorder={() => reorder(usual)} /> : undefined}
+            showAllergens={allergensOn}
           />
         )}
         {view.name === 'checkout' && (

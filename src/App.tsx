@@ -8,8 +8,9 @@ import { UsualCard } from './components/UsualCard';
 import { track } from './lib/analytics';
 import { useCart } from './lib/cart';
 import { useFavourites } from './lib/favourites';
-import { useAllergenInfo, useFavouriteDrinks, useReorderUsual } from './lib/flags';
+import { useAllergenInfo, useDarkMode, useFavouriteDrinks, useFlagsReady, useReorderUsual } from './lib/flags';
 import { lastOrder, type Order, type Usual } from './lib/orders';
+import { useTheme } from './lib/theme';
 
 type View = { name: 'menu' } | { name: 'checkout' } | { name: 'done'; order: Order };
 
@@ -22,6 +23,8 @@ export default function App() {
   const allergensOn = useAllergenInfo();
   const favouritesOn = useFavouriteDrinks();
   const favourites = useFavourites(favouritesOn);
+  const darkOn = useDarkMode();
+  const { theme, toggle } = useTheme(darkOn, useFlagsReady());
 
   useEffect(() => {
     if (view.name === 'menu') track('view_menu');
@@ -43,7 +46,13 @@ export default function App() {
 
   return (
     <div className="shell">
-      <Header count={cart.count} onCart={() => setCartOpen(true)} onHome={() => setView({ name: 'menu' })} />
+      <Header
+        count={cart.count}
+        onCart={() => setCartOpen(true)}
+        onHome={() => setView({ name: 'menu' })}
+        theme={darkOn ? theme : undefined}
+        onToggleTheme={darkOn ? toggle : undefined}
+      />
       <main className="page">
         {view.name === 'menu' && (
           <Menu

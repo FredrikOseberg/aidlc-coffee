@@ -1,6 +1,6 @@
 import { sessionId, userId } from './identity';
 
-export type EventType = 'view_menu' | 'add_to_cart' | 'remove_from_cart' | 'checkout_started' | 'order_placed' | 'error' | 'reorder_shown' | 'reorder_used' | 'theme_changed' | 'allergen_info_viewed' | 'favourite_added' | 'favourite_removed' | 'favourites_shown';
+export type EventType = 'view_menu' | 'add_to_cart' | 'remove_from_cart' | 'checkout_started' | 'order_placed' | 'error' | 'reorder_shown' | 'reorder_used' | 'allergen_info_viewed' | 'favourite_added' | 'favourite_removed' | 'favourites_shown';
 
 type AnalyticsEvent = {
   ts: string;

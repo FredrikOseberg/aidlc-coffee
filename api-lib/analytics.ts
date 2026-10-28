@@ -23,8 +23,6 @@ export type Summary = {
   avgOrderCents: number;
   checkoutLatencyP50Ms: number | null;
   checkoutLatencyP95Ms: number | null;
-  /** sessions that rendered dark (view_menu with props.theme = 'dark') / sessions */
-  darkSessionShare: number;
   /** sessions that opened an allergen panel (allergen_info_viewed) */
   allergenViewSessions: number;
   /** allergenViewSessions / sessions */
@@ -65,7 +63,6 @@ export async function summarize(db: D1Database, from: string, to: string, flag: 
          SUM(type = 'error') AS errors,
          COUNT(DISTINCT CASE WHEN type = 'add_to_cart' THEN session_id END) AS cartSessions,
          COUNT(DISTINCT CASE WHEN type = 'order_placed' THEN session_id END) AS orderSessions,
-         COUNT(DISTINCT CASE WHEN type = 'view_menu' AND json_extract(props, '$.theme') = 'dark' THEN session_id END) AS darkSessions,
          COUNT(DISTINCT CASE WHEN type = 'allergen_info_viewed' THEN session_id END) AS allergenViewSessions,
          COUNT(DISTINCT CASE WHEN type = 'favourite_added' THEN session_id END) AS favouriteSessions,
          SUM(type = 'add_to_cart' AND json_extract(props, '$.source') = 'favourites') AS favouriteAdds
@@ -98,7 +95,6 @@ export async function summarize(db: D1Database, from: string, to: string, flag: 
     avgOrderCents: n('orders') ? Math.round(n('revenueCents') / n('orders')) : 0,
     checkoutLatencyP50Ms: percentile(ms, 50),
     checkoutLatencyP95Ms: percentile(ms, 95),
-    darkSessionShare: ratio(n('darkSessions'), n('sessions')),
     allergenViewSessions: n('allergenViewSessions'),
     allergenViewRate: ratio(n('allergenViewSessions'), n('sessions')),
     favouriteAdoptionRate: ratio(n('favouriteSessions'), n('sessions')),
@@ -109,5 +105,5 @@ export async function summarize(db: D1Database, from: string, to: string, flag: 
 export const METRICS: (keyof Summary)[] = [
   'sessions', 'users', 'addToCart', 'checkoutsStarted', 'orders', 'revenueCents', 'errors', 'conversionRate',
   'checkoutCompletion', 'cartAbandonment', 'errorRate', 'avgOrderCents', 'checkoutLatencyP50Ms', 'checkoutLatencyP95Ms',
-  'darkSessionShare', 'allergenViewSessions', 'allergenViewRate', 'favouriteAdoptionRate', 'favouritesAddShare',
+  'allergenViewSessions', 'allergenViewRate', 'favouriteAdoptionRate', 'favouritesAddShare',
 ];

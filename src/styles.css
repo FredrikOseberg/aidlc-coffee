@@ -15,7 +15,7 @@
   --radius: 14px;
   color-scheme: light;
 }
-/* Only matches when useTheme (flag coffee-dark-mode) or the pre-paint script in index.html sets data-theme. */
+/* Only matches when the customer has chosen dark (see useTheme and the pre-paint script in index.html). */
 :root[data-theme="dark"] {
   --cream: #1c1714;
   --paper: #27201b;

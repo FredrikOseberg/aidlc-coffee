@@ -22,3 +22,7 @@ export const useAllergenInfo = (): boolean => useFeature(ALLERGEN_INFO_FLAG);
 /** Favourite stars and "Your favourites" row on the menu. Read once in App.tsx; off means the menu is exactly like main. */
 export const FAVOURITE_DRINKS_FLAG = 'coffee-favourite-drinks';
 export const useFavouriteDrinks = (): boolean => useFeature(FAVOURITE_DRINKS_FLAG);
+
+/** Dark theme toggle in the header. Read once in App.tsx; off means no toggle renders and the shop is exactly like main. */
+export const DARK_MODE_FLAG = 'coffee-dark-mode';
+export const useDarkMode = (): boolean => useFeature(DARK_MODE_FLAG);

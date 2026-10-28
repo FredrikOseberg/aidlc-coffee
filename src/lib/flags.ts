@@ -1,4 +1,4 @@
-import { useFlag, type IConfig } from '@unleash/proxy-client-react';
+import { useFlag, useFlagsStatus, type IConfig } from '@unleash/proxy-client-react';
 import { userId } from './identity';
 
 const url = import.meta.env.VITE_UNLEASH_URL as string | undefined;
@@ -10,6 +10,7 @@ export const unleashConfig: IConfig | null =
 
 // Chosen once at load so hook order never changes between renders; useFlag needs a FlagProvider.
 export const useFeature: (name: string) => boolean = unleashConfig ? (name) => useFlag(name) : () => false;
+export const useFlagsReady: () => boolean = unleashConfig ? () => useFlagsStatus().flagsReady : () => true;
 
 /** "Your usual" reorder card. Read once in App.tsx; off means the shop behaves exactly like main. */
 export const REORDER_USUAL_FLAG = 'coffee-reorder-usual';

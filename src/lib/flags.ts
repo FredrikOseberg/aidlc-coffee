@@ -1,4 +1,4 @@
-import { useFlag, useFlagsStatus, type IConfig } from '@unleash/proxy-client-react';
+import { useFlag, type IConfig } from '@unleash/proxy-client-react';
 import { userId } from './identity';
 
 const url = import.meta.env.VITE_UNLEASH_URL as string | undefined;
@@ -10,7 +10,6 @@ export const unleashConfig: IConfig | null =
 
 // Chosen once at load so hook order never changes between renders; useFlag needs a FlagProvider.
 export const useFeature: (name: string) => boolean = unleashConfig ? (name) => useFlag(name) : () => false;
-export const useFlagsReady: () => boolean = unleashConfig ? () => useFlagsStatus().flagsReady : () => true;
 
 /** "Your usual" reorder card. Read once in App.tsx; off means the shop behaves exactly like main. */
 export const REORDER_USUAL_FLAG = 'coffee-reorder-usual';
@@ -22,7 +21,3 @@ export const useAllergenInfo = (): boolean => useFeature(ALLERGEN_INFO_FLAG);
 /** Favourite stars and "Your favourites" row on the menu. Read once in App.tsx; off means the menu is exactly like main. */
 export const FAVOURITE_DRINKS_FLAG = 'coffee-favourite-drinks';
 export const useFavouriteDrinks = (): boolean => useFeature(FAVOURITE_DRINKS_FLAG);
-
-/** Dark theme toggle in the header. Read once in App.tsx; off means the shop is exactly like main (no toggle, no dark palette). */
-export const DARK_MODE_FLAG = 'coffee-dark-mode';
-export const useDarkMode = (): boolean => useFeature(DARK_MODE_FLAG);

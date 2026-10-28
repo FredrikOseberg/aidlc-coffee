@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kettle &amp; Crane · Order coffee</title>
     <script>
-      // Dark theme before first paint. Only acts if useTheme (src/lib/theme.ts) saw coffee-dark-mode on last visit.
+      // Theme before first paint, so returning customers don't flash light-then-dark.
       try {
-        if (localStorage.getItem('kc.themeEnabled') === '1') {
-          document.documentElement.dataset.theme = localStorage.getItem('kc.theme') === 'dark' ? 'dark' : 'light';
-        }
+        document.documentElement.dataset.theme = localStorage.getItem('kc.theme') === 'dark' ? 'dark' : 'light';
       } catch (e) {}
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -8,7 +8,7 @@ import { UsualCard } from './components/UsualCard';
 import { track } from './lib/analytics';
 import { useCart } from './lib/cart';
 import { useFavourites } from './lib/favourites';
-import { useAllergenInfo, useDarkMode, useFavouriteDrinks, useFlagsReady, useReorderUsual } from './lib/flags';
+import { useAllergenInfo, useFavouriteDrinks, useReorderUsual } from './lib/flags';
 import { lastOrder, type Order, type Usual } from './lib/orders';
 import { useTheme } from './lib/theme';
 
@@ -23,8 +23,7 @@ export default function App() {
   const allergensOn = useAllergenInfo();
   const favouritesOn = useFavouriteDrinks();
   const favourites = useFavourites(favouritesOn);
-  const darkOn = useDarkMode();
-  const { theme, toggle } = useTheme(darkOn, useFlagsReady());
+  const { theme, toggle } = useTheme();
 
   useEffect(() => {
     if (view.name === 'menu') track('view_menu');
@@ -50,8 +49,8 @@ export default function App() {
         count={cart.count}
         onCart={() => setCartOpen(true)}
         onHome={() => setView({ name: 'menu' })}
-        theme={darkOn ? theme : undefined}
-        onToggleTheme={darkOn ? toggle : undefined}
+        theme={theme}
+        onToggleTheme={toggle}
       />
       <main className="page">
         {view.name === 'menu' && (

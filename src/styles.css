@@ -15,7 +15,6 @@
   --radius: 14px;
   color-scheme: light;
 }
-/* Only matches when useTheme (flag coffee-dark-mode) or the pre-paint script in index.html sets data-theme. */
 :root[data-theme="dark"] {
   --cream: #1c1714;
   --paper: #27201b;
@@ -114,9 +113,9 @@ button { font: inherit; cursor: pointer; }
 .fav-chip .fav-star { margin: 0; }
 .theme-toggle { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); font-size: 18px; line-height: 1; padding: 0; display: grid; place-items: center; }
 @media (max-width: 600px) {
-  .header-themed { gap: 10px; padding: 14px 16px; }
-  .header-themed .brand { min-width: 0; }
-  .header-themed .brand-mark, .header-themed .cart-button { flex: none; }
-  .header-themed .brand-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .header-themed .theme-toggle { margin-left: auto; }
+  .header { gap: 10px; padding: 14px 16px; }
+  .header .brand { min-width: 0; }
+  .header .brand-mark, .header .cart-button { flex: none; }
+  .header .brand-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .header .theme-toggle { margin-left: auto; }
 }

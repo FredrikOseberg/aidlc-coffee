@@ -8,7 +8,7 @@ import { UsualCard } from './components/UsualCard';
 import { track } from './lib/analytics';
 import { useCart } from './lib/cart';
 import { useFavourites } from './lib/favourites';
-import { useAllergenInfo, useFavouriteDrinks, useReorderUsual } from './lib/flags';
+import { useAllergenInfo, useDarkMode, useFavouriteDrinks, useReorderUsual } from './lib/flags';
 import { lastOrder, type Order, type Usual } from './lib/orders';
 
 type View = { name: 'menu' } | { name: 'checkout' } | { name: 'done'; order: Order };
@@ -22,10 +22,19 @@ export default function App() {
   const allergensOn = useAllergenInfo();
   const favouritesOn = useFavouriteDrinks();
   const favourites = useFavourites(favouritesOn);
+  const darkModeOn = useDarkMode();
 
   useEffect(() => {
     if (view.name === 'menu') track('view_menu');
   }, [view.name]);
+
+  useEffect(() => {
+    if (darkModeOn) {
+      document.documentElement.dataset.theme = 'dark';
+    } else {
+      delete document.documentElement.dataset.theme;
+    }
+  }, [darkModeOn]);
 
   // Re-read on every return to the menu so a just-placed order becomes the usual.
   const usual = useMemo(() => (reorderOn && view.name === 'menu' ? lastOrder() : null), [reorderOn, view.name]);

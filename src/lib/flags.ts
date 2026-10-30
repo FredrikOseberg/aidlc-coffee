@@ -22,3 +22,7 @@ export const useAllergenInfo = (): boolean => useFeature(ALLERGEN_INFO_FLAG);
 /** Favourite stars and "Your favourites" row on the menu. Read once in App.tsx; off means the menu is exactly like main. */
 export const FAVOURITE_DRINKS_FLAG = 'coffee-favourite-drinks';
 export const useFavouriteDrinks = (): boolean => useFeature(FAVOURITE_DRINKS_FLAG);
+
+/** Pickup-slot picker at checkout. Read once in App.tsx; off means checkout is exactly like main. */
+export const SCHEDULED_PICKUP_FLAG = 'coffee-scheduled-pickup';
+export const useScheduledPickup = (): boolean => useFeature(SCHEDULED_PICKUP_FLAG);

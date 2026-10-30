@@ -6,7 +6,10 @@ export function Confirmation({ order, onNew }: { order: Order; onNew: () => void
     <section className="confirmation">
       <div className="check">✓</div>
       <h1 className="page-title">Thanks, {order.pickupName}!</h1>
-      <p className="muted">Order {order.id} · {formatPrice(order.totalCents)} · ready in about 5 minutes.</p>
+      <p className="muted">
+        Order {order.id} · {formatPrice(order.totalCents)} ·{' '}
+        {order.pickupSlot ? `ready around ${order.pickupSlot.label}` : 'ready in about 5 minutes'}.
+      </p>
       <button className="primary" onClick={onNew}>Order something else</button>
     </section>
   );

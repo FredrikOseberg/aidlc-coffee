@@ -1,7 +1,15 @@
 import { itemById } from '../data/menu';
 import type { CartLine } from './cart';
 
-export type Order = { id: string; placedAt: string; lines: CartLine[]; totalCents: number; pickupName: string };
+export type Order = {
+  id: string;
+  placedAt: string;
+  lines: CartLine[];
+  totalCents: number;
+  pickupName: string;
+  /** Set only when the scheduled-pickup picker was shown; absent means "as soon as possible" (today's default). */
+  pickupSlot?: { startIso: string; label: string };
+};
 
 /** Orders are kept in the browser only; this is a demo shop. */
 export function saveOrder(order: Order) {

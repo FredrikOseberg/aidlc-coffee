@@ -10,7 +10,6 @@ import { useCart } from './lib/cart';
 import { useFavourites } from './lib/favourites';
 import { useAllergenInfo, useFavouriteDrinks, useReorderUsual } from './lib/flags';
 import { lastOrder, type Order, type Usual } from './lib/orders';
-import { useTheme } from './lib/theme';
 
 type View = { name: 'menu' } | { name: 'checkout' } | { name: 'done'; order: Order };
 
@@ -23,7 +22,6 @@ export default function App() {
   const allergensOn = useAllergenInfo();
   const favouritesOn = useFavouriteDrinks();
   const favourites = useFavourites(favouritesOn);
-  const { theme, toggle } = useTheme();
 
   useEffect(() => {
     if (view.name === 'menu') track('view_menu');
@@ -45,13 +43,7 @@ export default function App() {
 
   return (
     <div className="shell">
-      <Header
-        count={cart.count}
-        onCart={() => setCartOpen(true)}
-        onHome={() => setView({ name: 'menu' })}
-        theme={theme}
-        onToggleTheme={toggle}
-      />
+      <Header count={cart.count} onCart={() => setCartOpen(true)} onHome={() => setView({ name: 'menu' })} />
       <main className="page">
         {view.name === 'menu' && (
           <Menu

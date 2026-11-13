@@ -1,0 +1,70 @@
+name: Kettle & Crane
+lanes:
+  - id: inbox
+    name: Inbox
+    purpose: Ideas waiting for an agent
+    agent: signal-scout
+  - id: plan
+    name: Plan
+    purpose: Shape the idea, working backwards
+    agent: product-manager-research
+  - id: build
+    name: Build
+    purpose: Implement behind a feature flag
+    agent: engineering-manager-github
+  - id: release
+    name: Release
+    purpose: Roll out progressively, watch metrics
+    agent: release-captain
+  - id: validate
+    name: Validate
+    purpose: Check outcomes against the press release
+    agent: outcome-analyst
+unleash:
+  project: default
+  previewEnvironment: development
+release:
+  environment: production
+  strategy: gradual
+  metricsSource: http
+  metricsUrl: https://aidlc-coffee.pages.dev/api/analytics/metric?name={metric}&flag={flag}&minutes=5&minSessions=20
+  metricsField: value
+  metrics:
+    - name: errorRate
+      description: errors per session (0–1). Higher is worse.
+      range:
+        - 0
+        - 1
+    - name: conversionRate
+      description: orders per session (0–1). Lower is worse.
+      range:
+        - 0
+        - 1
+    - name: checkoutCompletion
+      description: orders per started checkout (0–1). Lower is worse.
+      range:
+        - 0
+        - 1
+    - name: cartAbandonment
+      description: share of sessions that added to cart but didn't order (0–1). Higher is worse.
+      range:
+        - 0
+        - 1
+    - name: checkoutLatencyP95Ms
+      description: 95th percentile time from checkout to order, ms. Higher is worse.
+      range:
+        - 0
+        - 60000
+    - name: avgOrderCents
+      description: average order value in cents. Lower is worse.
+      range:
+        - 0
+        - 100000
+  impactMetrics:
+    - coffee_orders_total
+    - coffee_checkout_errors_total
+deploy:
+  productionUrl: https://aidlc-coffee.pages.dev
+  versionUrl: https://aidlc-coffee.pages.dev/version.json
+  versionField: sha
+  previewUrlPattern: https://[\w-]+\.aidlc-coffee\.pages\.dev

@@ -1,0 +1,7 @@
+{
+  "repo": "github.com/Unleash/unleash-claude-plugins-internal",
+  "path": "plugins/unleash-internal/skills/code-review",
+  "ref": "main",
+  "commit": "5c1c7cd8ed4b2b0d10945b5d1e45fb32c22f70bc",
+  "installedAt": "2026-10-21T13:07:28.915Z"
+}
